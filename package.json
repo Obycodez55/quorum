@@ -1,0 +1,45 @@
+{
+  "name": "quorum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "concurrently \"pnpm run watch-ts\" \"nodemon dist/index.js\"",
+    "build": "pnpm install && pnpm run clean && tsc",
+    "clean": "rimraf dist/",
+    "watch-ts": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Obycodez55/quorum.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Obycodez55/quorum/issues"
+  },
+  "homepage": "https://github.com/Obycodez55/quorum#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.9.3",
+    "concurrently": "^10.0.3",
+    "dotenv": "^17.4.2",
+    "eslint": "^10.5.0",
+    "express": "^5.2.1",
+    "install": "^0.13.0",
+    "nodemon": "^3.1.14",
+    "npm": "^11.17.0",
+    "prettier": "^3.8.4",
+    "rimraf": "^6.1.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "helmet": "^8.2.0"
+  }
+}
