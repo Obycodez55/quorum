@@ -3,8 +3,11 @@ import cors from 'cors';
 import helmet from 'helmet';
 import routes from './routes';
 import errorHandler from './utils/error-handler';
+import { connectDB } from './config/db';
 
 const app: express.Express = express();
+
+connectDB();
 
 app.use(cors());
 app.use(helmet());
