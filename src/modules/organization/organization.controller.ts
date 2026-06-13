@@ -15,7 +15,8 @@ export class OrganizationController {
     }
 
     async getOrganizationById(req: Request<{ organizationId: string }>, res: Response) {
-        const organization = await this.organizationService.getOrganizationById(req.params.organizationId);
+        const id = req.params.organizationId == "me" ? (req as any).organization.id : req.params.organizationId;
+        const organization = await this.organizationService.getOrganizationById(id);
         const response = new ResponseDto(ResponseStatus.SUCCESS, 'Organization fetched successfully', organization);
         res.status(HttpStatus.OK).send(response);
     }

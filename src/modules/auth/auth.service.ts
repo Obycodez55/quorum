@@ -4,10 +4,12 @@ import { OrganizationService } from "../organization/organization.service";
 import { UnauthorizedException } from "../../utils/exceptions";
 import { LoginCode } from "./login-code.model";
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import config from "../../config/config";
 
 interface LoginResult {
-    isVerified: boolean;
     emailSent: boolean;
+    token?: string;
 }
 
 export class AuthService {
@@ -24,7 +26,7 @@ export class AuthService {
 
         if (!code) {
             await this.sendLoginCode(email, organization.name);
-            return { isVerified: false, emailSent: true };
+            return { emailSent: true };
         }
 
         const isVerified = await this.verifyLoginCode(email, code);
@@ -32,7 +34,8 @@ export class AuthService {
             throw new UnauthorizedException('Invalid code');
         }
 
-        return { isVerified: true, emailSent: false };
+        const token = jwt.sign({ email, id: organization._id }, config.jwtSecret, { expiresIn: config.jwtExpiration });
+        return { emailSent: false, token };
     }
 
     private async sendLoginCode(email: string, organizationName: string) {
@@ -41,7 +44,7 @@ export class AuthService {
         await LoginCode.deleteMany({ email });
         const code = Math.floor(100000 + Math.random() * 900000).toString();
         const hashedCode = await bcrypt.hash(code, 10);
-        const loginCode = await LoginCode.create({
+        await LoginCode.create({
             email,
             code: hashedCode,
             expiresAt: new Date(Date.now() + expiresInMinutes * 60 * 1000)
@@ -53,7 +56,7 @@ export class AuthService {
             template: 'login-code',
             data: { code, organizationName, expiresInMinutes }
         });
-        return { isVerified: false, emailSent: true };
+        return { emailSent: true };
     }
 
     private async verifyLoginCode(email: string, code: string): Promise<boolean> {

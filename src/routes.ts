@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { Request, Response } from 'express';
 import OrganizationRoutes from './modules/organization/organization.routes';
 import { NotFoundException } from './utils/exceptions';
+import AuthRoutes from './modules/auth/auth.routes';
 
 const router = Router();
 
@@ -10,7 +11,7 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 router.use('/organizations', OrganizationRoutes);
-
+router.use('/auth', AuthRoutes);
 router.use((req, res, next) => {
     throw new NotFoundException('Not Found');
 });
