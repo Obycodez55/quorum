@@ -21,9 +21,9 @@ const brevo = new BrevoClient({
 export class EmailService {
 
 
-    private renderTemplate(template: string, data: any): string {
+    private async renderTemplate(template: string, data: any): Promise<string> {
         try {
-            const templatePath = path.join(__dirname, 'templates', template);
+            const templatePath = path.join(__dirname, '../../templates', `${template}.ejs`);
             return ejs.renderFile(templatePath, data);
         } catch (error) {
             throw new InternalServerException('Failed to render template');
@@ -34,7 +34,7 @@ export class EmailService {
     async sendEmail(options: SendEmailOptions) {
         try {
             const { to, subject, template, data } = options;
-            const html = this.renderTemplate(template, data);
+            const html = await this.renderTemplate(template, data);
             const response = await brevo.transactionalEmails.sendTransacEmail({
                 to: [{ email: to }],
                 subject: subject,

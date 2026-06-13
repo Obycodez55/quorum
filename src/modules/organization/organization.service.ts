@@ -4,6 +4,10 @@ import { CreateOrganizationDto, UpdateOrganizationDto } from "./organization.dto
 
 
 export class OrganizationService {
+    async getOrganizationByEmail(email: string): Promise<IOrganization | null> {
+        return await Organization.findOne({ email });
+    }
+
     async createOrganization(organization: CreateOrganizationDto): Promise<IOrganization> {
         const existingOrganization = await Organization.findOne({ email: organization.email });
         if (existingOrganization) {
