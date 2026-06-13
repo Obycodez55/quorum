@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Obycodez55/quorum#readme",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.9.3",
@@ -39,6 +40,9 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "helmet": "^8.2.0",
     "mongoose": "^9.7.0"
